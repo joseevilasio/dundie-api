@@ -143,3 +143,16 @@ async def validate_token(token: str = Depends(oauth2_scheme)) -> User:
     """Validates user token"""
     user = get_current_user(token=token)
     return user
+
+
+async def get_current_super_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    if not current_user.superuser:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Not a super user"
+        )
+    return current_user
+
+
+SuperUser = Depends(get_current_super_user)
