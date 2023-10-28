@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks, Body
 from fastapi.exceptions import HTTPException
 from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError
@@ -92,9 +92,9 @@ async def change_password(
 
 
 @router.post("/pwd_reset_token/")
-async def send_password_reset_token(*, email: str = Body(embed=True)):
+async def send_password_reset_token(*, email: str = Body(embed=True), background_tasks: BackgroundTasks,):
     """Sends an email with the token to reset password."""
-    try_to_send_pwd_reset_email(email)
+    background_tasks.add_task(try_to_send_pwd_reset_email, email=email)
     return {
         "message": "If we found a user with that email, we sent a password reset token to it."
     }
