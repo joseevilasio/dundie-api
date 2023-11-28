@@ -4,12 +4,13 @@ from dundie.models import Transaction
 from dundie.models.serializers import TransactionResponse
 from sqlmodel import text
 from sqlalchemy.orm import aliased
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Depends
 from dundie.auth import AuthenticatedUser
 from dundie.db import ActiveSession
 from dundie.models import User
 from dundie.tasks.transaction import add_transaction, TransactionError
 from sqlmodel import select, Session
+from typing import Optional
 
 router = APIRouter()
 

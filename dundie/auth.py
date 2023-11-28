@@ -195,11 +195,6 @@ async def get_user_if_change_password_is_allowed(
     )
 
 
-CanChangeUserPassword = Depends(get_user_if_change_password_is_allowed)
-SuperUser = Depends(get_current_super_user)
-
-
-
 async def show_balance_field(
     *,
     request: Request,
@@ -231,4 +226,6 @@ async def show_balance_field(
     return False
 
 
+CanChangeUserPassword = Depends(get_user_if_change_password_is_allowed)
+SuperUser = Depends(get_current_super_user)
 ShowBalanceField = Depends(show_balance_field)
